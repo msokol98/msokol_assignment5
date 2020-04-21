@@ -2,24 +2,24 @@ package DiGraph_A5;
 
 public class ShortestPathInfo {
 
-  private long totalWeight;
-  private String destination;
-  
-  public ShortestPathInfo(String givenDest, long totalWeight){
-    destination = givenDest;
-    this.totalWeight=totalWeight;
-  }
-  
-  public String toString(){
-    return "dest: " + destination + "\ttotalWeight: "+ totalWeight;
-  }
-  
-  public String getDest() {
-    return destination;
-  }
+	  private String dest;
+	  private long totalWeight;
+	  
+	  public ShortestPathInfo(String dest, long totalWeight){
+	    this.dest=dest;
+	    this.totalWeight=totalWeight;
+	  }
 
-  public long getTotalWeight() {
-    return totalWeight;
-  }
+	  public String getDest() {
+	    return dest;
+	  }
+
+	  public long getTotalWeight() {
+	    return totalWeight;
+	  }
+	  
+	  public String toString(){
+	    return "dest: "+dest+"\ttotalWeight: "+totalWeight;
+	  }
 
 }

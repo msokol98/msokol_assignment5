@@ -1,4 +1,4 @@
-package DiGraph_A5;
+package DiGraph_A5.Helpers;
 
 public class StartPairImpl implements IStartPair {
 	

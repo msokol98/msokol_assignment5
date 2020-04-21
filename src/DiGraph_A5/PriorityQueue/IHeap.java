@@ -1,10 +1,12 @@
-package DiGraph_A5;
+package DiGraph_A5.PriorityQueue;
 
-public interface Heap_Interface {
+import DiGraph_A5.Helpers.StartPairImpl;
+
+public interface IHeap {
+  int size();
   void insert(StartPairImpl entry);
   void delMin();
   StartPairImpl getMin();
-  int size();
   void build(StartPairImpl [] entries);
   StartPairImpl[] getHeap();
 }
