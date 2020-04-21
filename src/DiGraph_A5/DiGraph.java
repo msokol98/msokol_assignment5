@@ -7,14 +7,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import DiGraph_A5.Helpers.Edge;
-import DiGraph_A5.Helpers.Node;
+import DiGraph_A5.Helpers.Graph_E;
+import DiGraph_A5.Helpers.Graph_N;
 import DiGraph_A5.Helpers.StartPairImpl;
 import DiGraph_A5.PriorityQueue.MBHImpl;
 
 public class DiGraph implements DiGraph_Interface {
 
-	HashMap<String, Node> n_map = new HashMap<String, Node>();
+	HashMap<String, Graph_N> n_map = new HashMap<String, Graph_N>();
 
 	HashSet<Long> nodeIdentifiers = new HashSet<Long>();
 
@@ -39,7 +39,7 @@ public class DiGraph implements DiGraph_Interface {
 		int y = 0;
 		
 		while (PQ.size() > 0) {
-			Node presentN = n_map.get(PQ.getMin().getValue());
+			Graph_N presentN = n_map.get(PQ.getMin().getValue());
 			
 			long currentDistance = PQ.getMin().getPriority();
 			
@@ -52,10 +52,10 @@ public class DiGraph implements DiGraph_Interface {
 				presentN.isMarked = true;
 			}
 			
-			Iterator<Edge> nodeOnBorder = presentN.edge_on_outside.values().iterator();
+			Iterator<Graph_E> nodeOnBorder = presentN.edge_on_outside.values().iterator();
 			
 			while (nodeOnBorder.hasNext()) {
-				Node dummyNode = n_map.get(nodeOnBorder.next().getDestLabel());
+				Graph_N dummyNode = n_map.get(nodeOnBorder.next().getDestLabel());
 				if (!dummyNode.isMarked) {
 					long updatedDistance = updateDistance(presentN.edge_on_outside.get(dummyNode.theLabel).getWeight(), currentDistance);
 					if (dummyNode.dist == 0 || dummyNode.dist > updatedDistance) {
@@ -72,7 +72,7 @@ public class DiGraph implements DiGraph_Interface {
 		}
 
 		if (y < magnitude) {
-			for (Node n : n_map.values()) {
+			for (Graph_N n : n_map.values()) {
 				if (!n.isMarked) {
 					n.dist = -1;
 					
@@ -97,13 +97,13 @@ public class DiGraph implements DiGraph_Interface {
 		else if (!n_map.containsKey(stheLabel) || !n_map.containsKey(dtheLabel))
 			return false;
 
-		Node sourceNode = n_map.get(stheLabel);
-		Node nodeOfDestination = n_map.get(dtheLabel);
+		Graph_N sourceNode = n_map.get(stheLabel);
+		Graph_N nodeOfDestination = n_map.get(dtheLabel);
 
 		if (sourceNode.edge_on_outside.containsKey(dtheLabel) && nodeOfDestination.edge_on_inside.containsKey(stheLabel))
 			return false;
 
-		Edge edgeToAdd = new Edge(givenId, stheLabel, dtheLabel, weight, etheLabel);
+		Graph_E edgeToAdd = new Graph_E(givenId, stheLabel, dtheLabel, weight, etheLabel);
 		edgeIdentifiers.add(givenId);
 		
 		
@@ -126,7 +126,7 @@ public class DiGraph implements DiGraph_Interface {
 
 		else if (!n_map.containsKey(theLabel) && !nodeIdentifiers.contains(givenId)) {
 
-			n_map.put(theLabel, new Node(givenId, theLabel));
+			n_map.put(theLabel, new Graph_N(givenId, theLabel));
 			nodeIdentifiers.add(givenId);
 
 			return true;
@@ -140,7 +140,7 @@ public class DiGraph implements DiGraph_Interface {
 		if (!n_map.containsKey(theLabel))
 			return false;
 
-		Node nodeToRemove = n_map.get(theLabel);
+		Graph_N nodeToRemove = n_map.get(theLabel);
 
 		Iterator<String> InEdge_sL = nodeToRemove.edge_on_inside.keySet().iterator();
 		Iterator<String> OutEdge_dL = nodeToRemove.edge_on_outside.keySet().iterator();
@@ -163,11 +163,11 @@ public class DiGraph implements DiGraph_Interface {
 		if (!n_map.containsKey(stheLabel) || !n_map.containsKey(dtheLabel))
 			return false;
 
-		Node srcNode = n_map.get(stheLabel);
-		Node nodeOfDestination = n_map.get(dtheLabel);
+		Graph_N srcNode = n_map.get(stheLabel);
+		Graph_N nodeOfDestination = n_map.get(dtheLabel);
 
 		if (srcNode.edge_on_outside.containsKey(dtheLabel)) {
-			Edge edgeToRemove = n_map.get(stheLabel).edge_on_outside.get(dtheLabel);
+			Graph_E edgeToRemove = n_map.get(stheLabel).edge_on_outside.get(dtheLabel);
 			srcNode.edge_on_outside.remove(dtheLabel, edgeToRemove);
 			nodeOfDestination.edge_on_inside.remove(stheLabel, edgeToRemove);
 			nodeOfDestination.numNeighbors = nodeOfDestination.numNeighbors - 1;
@@ -182,24 +182,24 @@ public class DiGraph implements DiGraph_Interface {
 	
 
 	public String[] topoSort() {
-		Queue<Node> zeroN = new LinkedList<Node>();
+		Queue<Graph_N> zeroN = new LinkedList<Graph_N>();
 		
 		if (n_map.isEmpty())
 			return null;
 
 		List<String> topoString = new LinkedList<String>();
-		for (Node node : n_map.values()) {
+		for (Graph_N node : n_map.values()) {
 			if (node.numNeighbors <  1)
 				zeroN.add(node);
 		}
 
 		while (!zeroN.isEmpty()) {
-			Node deqNode = zeroN.poll();
+			Graph_N deqNode = zeroN.poll();
 			topoString.add(deqNode.theLabel);
-			Iterator<Edge> oe = deqNode.edge_on_outside.values().iterator();
+			Iterator<Graph_E> oe = deqNode.edge_on_outside.values().iterator();
 			
 			while (oe.hasNext()) {
-				Node nodeOfDestination = n_map.get(oe.next().getDestLabel());
+				Graph_N nodeOfDestination = n_map.get(oe.next().getDestLabel());
 				nodeOfDestination.numNeighbors = nodeOfDestination.numNeighbors - 1;
 
 				if (nodeOfDestination.numNeighbors < 1) {

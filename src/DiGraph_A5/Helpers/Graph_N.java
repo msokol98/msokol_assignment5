@@ -2,14 +2,14 @@ package DiGraph_A5.Helpers;
 
 import java.util.HashMap;
 
-public class Node {
+public class Graph_N {
 	
 	
 	private long idNum;
 	public String theLabel;
 	
-	public HashMap<String, Edge> edge_on_inside;
-	public HashMap<String, Edge> edge_on_outside;
+	public HashMap<String, Graph_E> edge_on_inside;
+	public HashMap<String, Graph_E> edge_on_outside;
 	
 	public int numNeighbors = 0;
 	public long dist;
@@ -41,7 +41,7 @@ public class Node {
 		this.isMarked = isMarked;
 	}
 
-	public Node(long givenId, String label) {
+	public Graph_N(long givenId, String label) {
 	   isMarked = false;
 		
 	   edge_on_inside = new HashMap<>();

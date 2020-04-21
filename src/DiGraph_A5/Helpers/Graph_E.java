@@ -1,6 +1,6 @@
 package DiGraph_A5.Helpers;
 
-public class Edge {
+public class Graph_E {
 	
 	  String srcLabel;
 	  String destL;
@@ -9,7 +9,7 @@ public class Edge {
 	  long idNum;
 	  long theWeight;
 	  
-	  public Edge(long idNum, String srcLabel, String dLabel, long weight, String edgeLabel)
+	  public Graph_E(long idNum, String srcLabel, String dLabel, long weight, String edgeLabel)
 	  {
 		this.idNum=idNum;
 	    this.srcLabel = srcLabel;
